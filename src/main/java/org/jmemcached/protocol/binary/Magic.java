@@ -1,6 +1,6 @@
 package org.jmemcached.protocol.binary;
 
-public enum Magic {
+public enum Magic implements HasCode {
     REQUEST(0x80),
     RESPONSE(0x81);
 
@@ -14,12 +14,9 @@ public enum Magic {
         return code;
     }
 
+    private static final EnumCodeCache<Magic> VALUE_CACHE = new EnumCodeCache<Magic>(values());
+
     public static Magic fromCode(int code) {
-        if (code == REQUEST.code) {
-            return REQUEST;
-        } else if (code == RESPONSE.code) {
-            return RESPONSE;
-        }
-        throw new IllegalArgumentException("Unsupported magic code:" + code);
+        return VALUE_CACHE.getValueByCode(code);
     }
 }
