@@ -10,6 +10,7 @@ public enum Magic implements HasCode {
         this.code = code;
     }
 
+    @Override
     public int getCode() {
         return code;
     }

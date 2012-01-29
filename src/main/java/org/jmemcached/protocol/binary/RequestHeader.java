@@ -57,8 +57,8 @@ public final class RequestHeader {
         return decodeShort(data, EXTRA_LENGTH_OFFSET);
     }
 
-    public short getDataType() {
-        return decodeShort(data, DATA_TYPE_OFFSET);
+    public DataType getDataType() {
+        return DataType.fromCode(getDataTypeCode());
     }
 
     public int getVbucket() {
@@ -83,6 +83,10 @@ public final class RequestHeader {
 
     private short getOpcode() {
         return decodeShort(data, OPCODE_OFFSET);
+    }
+
+    private short getDataTypeCode() {
+        return decodeShort(data, DATA_TYPE_OFFSET);
     }
 
     private static short decodeShort(byte[] data, int i) {
