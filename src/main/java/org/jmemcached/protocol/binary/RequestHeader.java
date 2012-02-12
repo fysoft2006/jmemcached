@@ -21,6 +21,7 @@ package org.jmemcached.protocol.binary;
         +---------------+---------------+---------------+---------------+
         Total 24 bytes
  */
+@SuppressWarnings("MagicNumber")
 public final class RequestHeader {
     private static final int MAGIC_OFFSET = 0;
     private static final int OPCODE_OFFSET = 1;

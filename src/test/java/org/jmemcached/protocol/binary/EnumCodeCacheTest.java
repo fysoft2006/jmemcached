@@ -47,6 +47,7 @@ public class EnumCodeCacheTest {
             this.code = code;
         }
 
+        @Override
         public int getCode() {
             return code;
         }
