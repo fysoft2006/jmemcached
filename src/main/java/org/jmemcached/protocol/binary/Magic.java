@@ -1,12 +1,12 @@
 package org.jmemcached.protocol.binary;
 
 public enum Magic implements HasCode {
-    REQUEST(0x80),
-    RESPONSE(0x81);
+    REQUEST((byte)0x80),
+    RESPONSE((byte)0x81);
 
-    private final int code;
+    private final byte code;
 
-    private Magic(int code) {
+    private Magic(byte code) {
         this.code = code;
     }
 
@@ -15,7 +15,7 @@ public enum Magic implements HasCode {
         return code;
     }
 
-    private static final EnumCodeCache<Magic> VALUE_CACHE = new EnumCodeCache<Magic>(values());
+    private static final EnumCodeCache<Magic> VALUE_CACHE = new EnumCodeCache<Magic>(Magic.class, values());
 
     public static Magic fromCode(int code) {
         return VALUE_CACHE.getValueByCode(code);

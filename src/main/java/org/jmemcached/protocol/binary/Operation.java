@@ -1,20 +1,20 @@
 package org.jmemcached.protocol.binary;
 
 public enum Operation implements HasCode {
-    GET(0x00),
-    SET(0x01),
-    ADD(0x02),
-    REPLACE(0x03),
-    DELETE(0x04),
-    INCREMENT(0x05),
-    DECREMENT(0x06),
-    QUIT(0x07),
+    GET((byte)0x00),
+    SET((byte)0x01),
+    ADD((byte)0x02),
+    REPLACE((byte)0x03),
+    DELETE((byte)0x04),
+    INCREMENT((byte)0x05),
+    DECREMENT((byte)0x06),
+    QUIT((byte)0x07),
     ;
 
 
-    private final int code;
+    private final byte code;
 
-    private Operation(int code) {
+    private Operation(byte code) {
         this.code = code;
     }
 
@@ -23,7 +23,7 @@ public enum Operation implements HasCode {
         return code;
     }
 
-    private static final EnumCodeCache<Operation> VALUE_CACHE = new EnumCodeCache<Operation>(values());
+    private static final EnumCodeCache<Operation> VALUE_CACHE = new EnumCodeCache<Operation>(Operation.class, values());
 
     public static Operation fromCode(int code) {
         return VALUE_CACHE.getValueByCode(code);

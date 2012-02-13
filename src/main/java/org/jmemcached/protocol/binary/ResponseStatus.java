@@ -29,7 +29,7 @@ public enum ResponseStatus implements HasCode {
         return code;
     }
 
-    private static final EnumCodeCache<ResponseStatus> VALUE_CACHE = new EnumCodeCache<ResponseStatus>(values());
+    private static final EnumCodeCache<ResponseStatus> VALUE_CACHE = new EnumCodeCache<ResponseStatus>(ResponseStatus.class, values());
 
     public static ResponseStatus fromCode(int code) {
         return VALUE_CACHE.getValueByCode(code);

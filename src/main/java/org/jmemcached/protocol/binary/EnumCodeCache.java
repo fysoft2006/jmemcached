@@ -1,34 +1,29 @@
 package org.jmemcached.protocol.binary;
 
 import com.google.common.base.Preconditions;
+import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
+import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 
-class EnumCodeCache<T extends Enum<T> & HasCode> {
-    private final Object[] code2Value;
+public final class EnumCodeCache<T extends Enum<T> & HasCode> {
+	private final Class<T> type;
+	private final Int2ObjectMap<T> code2Value;
 
-    public EnumCodeCache(T[] values) {
-        int size = calcSize(values);
-        code2Value = new Object[size];
-        for (T value : values) {
-            code2Value[value.getCode()] = value;
-        }
-    }
+	public EnumCodeCache(Class<T> type, T[] values) {
+		this.type = type;
+		this.code2Value = createCode2ValueMap(values);
+	}
 
-    public T getValueByCode(int code) {
-        Preconditions.checkArgument(code >= 0 && code < code2Value.length, "Unsupported code: %s", code);
-        @SuppressWarnings("unchecked")
-        final T value = (T) code2Value[code];
-        Preconditions.checkArgument(value != null, "Unsupported code: %s", code);
-        return value;
-    }
+	public T getValueByCode(int code) {
+		final T value = code2Value.get(code);
+		Preconditions.checkArgument(value != null, "Unsupported code: %s for type: %s", code, type);
+		return value;
+	}
 
-    private int calcSize(T[] values) {
-        int maxCode = 0;
-        for (T value : values) {
-            int code = value.getCode();
-            if (code > maxCode) {
-                maxCode = code;
-            }
-        }
-        return maxCode + 1;
-    }
+	private static <T extends HasCode> Int2ObjectMap<T> createCode2ValueMap(T[] values) {
+		Int2ObjectMap<T> code2Value = new Int2ObjectOpenHashMap<T>(values.length);
+		for (T value : values) {
+			code2Value.put(value.getCode(), value);
+		}
+		return code2Value;
+	}
 }
