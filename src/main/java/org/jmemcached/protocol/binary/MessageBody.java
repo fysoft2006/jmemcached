@@ -3,24 +3,23 @@ package org.jmemcached.protocol.binary;
 import java.nio.ByteBuffer;
 
 public final class MessageBody {
-    private final ByteBuffer data;
-    private final int keyLength;
-    private final int valueLength;
+	private final byte[] key;
+	private final ByteBuffer valueData;
 
-    public MessageBody(ByteBuffer data, int valueLength, int keyLength) {
-        this.data = data;
-        this.valueLength = valueLength;
-        this.keyLength = keyLength;
-    }
+	public MessageBody(ByteBuffer data, int keyLength) {
+		key = readKey(data, keyLength);
+		valueData = data.slice();
+	}
 
-    public byte[] getKey() {
-        ByteBuffer tmpData = data.duplicate();
-        byte[] key = new byte[keyLength];
-        tmpData.get(key, 0, keyLength);
-        return key;
-    }
+	public byte[] getKey() {
+		return key;
+	}
 
-    public void writeTo(ByteBuffer buffer) {
-        buffer.put(data);
-    }
-}
+	public void writeValueTo(ByteBuffer buffer) {
+		buffer.put(valueData.duplicate());
+	}
+
+	private static byte[] readKey(ByteBuffer data, int keyLength) {
+		return BufferUtils.readBytes(data, keyLength);
+	}
+}                                                 

@@ -64,7 +64,11 @@ public class RequestDecoder extends FrameDecoder {
 
 	private ByteBuffer readData(ChannelBuffer buffer, RequestHeader header) {
 		int dataLength = header.getTotalBodyLength();
-		ByteBuffer data = buffer.toByteBuffer(buffer.readerIndex(), dataLength);
+		if (buffer.readableBytes() != dataLength) {
+			LOG.error("Unexpected input data. Expected: {} bytes, actual: {} bytes", dataLength, buffer.readableBytes());
+			throw new DataException("Unexpected input data");
+		}
+		ByteBuffer data = buffer.toByteBuffer();
 		buffer.skipBytes(dataLength);
 		return data;
 	}
