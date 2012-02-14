@@ -3,15 +3,15 @@ package org.jmemcached.protocol.binary;
 import java.nio.ByteBuffer;
 
 public final class MessageBody {
-	private final byte[] key;
+	private final Key key;
 	private final ByteBuffer valueData;
 
 	public MessageBody(ByteBuffer data, int keyLength) {
-		key = readKey(data, keyLength);
+		key = new Key(readKey(data, keyLength));
 		valueData = data.slice();
 	}
 
-	public byte[] getKey() {
+	public Key getKey() {
 		return key;
 	}
 
